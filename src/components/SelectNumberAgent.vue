@@ -1,25 +1,43 @@
 <template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
   <div class="container mx-auto px-4 py-8 flex flex-col items-center text-center">
+
+    <!-- Image Valorant Randomizer en haut à gauche -->
+    <div class="absolute top-4 left-4">
+    <a href="../accueil">
+      <img src="../assets/img/valorant_randomizer.png" alt="Valorant Randomizer" class="w-64 h-auto pt-6 pl-6" />
+    </a>
+    </div>
+
     <!-- Titre AGENTS -->
-    <h1 class="text-5xl font-main-font text-white mb-4">AGENTS</h1>
+    <h1 class="text-9xl text-white mb-4 anton-regular pt-24">AGENTS</h1>
 
     <!-- Section Number of players -->
     <div v-if="result.length === 0" class="flex flex-col gap-4 items-center">
-      <div class="text-xl font-bold text-white mb-4">Number of players</div>
+      <div class="text-xl text-white mb-4 pt-24 red-hat-display">Number of players</div>
 
       <!-- Sélecteur de nombre d'agents -->
-      <div class="flex items-center gap-4 mb-4">
-        <button class="w-12 h-12 bg-gray-700 hover:bg-gray-800 text-white rounded-lg flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                @click="decrement">-</button>
-        <div class="w-16 h-16 flex items-center justify-center bg-black text-white text-2xl font-bold">
+      <div class="flex items-center gap-4">
+        <button 
+          class="w-10 h-10  text-black text-5xl rounded-full flex items-center justify-center pr-6 "
+          @click="decrement"
+        >-</button>
+        <div class="w-32 h-12 flex items-center justify-center input_color text-white text-2xl font-bold">
           {{ numberAgent }}
         </div>
-        <button class="w-12 h-12 bg-gray-700 hover:bg-gray-800 text-white rounded-lg flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                @click="increment">+</button>
+        <button 
+          class="w-10 h-10 text-black text-5xl rounded-full flex items-center justify-center pl-6 "
+          @click="increment"
+        >+</button>
       </div>
 
         <!-- Bouton RANDOMIZE -->
-        <div class="flex items-center justify-center h-screen">
+        <div class="flex items-center justify-center pt-32">
 
           <button @click="randomizeAgent" class="call-to-action">
               <div>
@@ -32,37 +50,55 @@
   </div>
 
     <!-- Liste des agents -->
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 justify-center">
-        <li v-for="(agent, index) in result" :key="agent.name" class="flex flex-col items-center gap-4 py-4 px-2 border rounded-md shadow-sm hover:bg-gray-100">
-          <h3 class="text-lg font-bold">Player {{ index + 1 }}</h3>
-          <img :src="agent.image" alt="Image de {{ agent.name }}" class="w-16 h-16 rounded-full" />
-          <p>{{ agent.name }}</p>
+        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4">
+          <h3 class="text-lg font-bold big-shoulders-stencil-text text-white text-4xl">Player {{ index + 1 }}</h3>
+          <img :src="agent.displayIcon" :alt="`Image de ${agent.displayName}`" class="w-42 h-42 pt-10 pb-2 " />
+          <p class="anton-regular-agent text-5xl uppercase">{{ agent.displayName }}</p>
         </li>
       </ul>
     </div>
+
+    <!-- Bouton RANDOMIZE WEAPONS -->
+        <div v-if="result.length > 0" class="flex items-center justify-center pt-32">
+        <a href="./accueil">
+          <button class="call-to-action">
+              <div>
+                  <div>
+                      RANDOMIZE WEAPONS
+                  </div>
+              </div>
+          </button>
+        </a>
+        </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       numberAgent: 1,
-      agents: [
-        { name: "Jett",  image: "../assets/img/Jett-Avatar.png"},
-        { name: "Phoenix" },
-        { name: "Sage" },
-        { name: "Reyna" },
-        { name: "Sova" },
-        { name: "Clove" },
-        { name: "Viper" },
-        
-      ],
+      agents: [], // Les agents récupérés de l'API
       result: [],
     };
   },
+  mounted() {
+    this.fetchAgents();
+  },
   methods: {
+    async fetchAgents() {
+      try {
+        const response = await axios.get('https://valorant-api.com/v1/agents');
+        // Filtrer les agents jouables
+        this.agents = response.data.data.filter(agent => agent.isPlayableCharacter);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des agents :", error);
+      }
+    },
     increment() {
       if (this.numberAgent < 5) {
         this.numberAgent++;
@@ -80,8 +116,7 @@ export default {
         return;
       }
 
-      const agentsCopy = [...this.agents]; 
-
+      const agentsCopy = [...this.agents];
       while (this.result.length < this.numberAgent) {
         const randomIndex = Math.floor(Math.random() * agentsCopy.length);
         const selectedAgent = agentsCopy.splice(randomIndex, 1)[0];
@@ -150,7 +185,7 @@ export default {
   width: 100px;
   background-color: red;
   transform: skew(-10deg);
-  background-color: #ff4655;
+  background-color: #2B2B2B;
   width: 120%;
   left: -130%;
   transition: left 0.3s ease;
@@ -179,4 +214,35 @@ export default {
   background-color: white;
 }
 
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #2B2B2B;
+}
+
+.anton-regular-agent {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+}
+
+.red-hat-display{
+  font-family: "Red Hat Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+.big-shoulders-stencil-text {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+.input_color{
+  background-color: #2B2B2B;
+}
 </style>

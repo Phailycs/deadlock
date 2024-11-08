@@ -1,10 +1,12 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen text-white">
-    <h1 class="text-6xl font-extrabold tracking-wider">
-      <span class="text-white font-light">VALORANT</span> RANDOMIZER
-    </h1>
 
-    <div class="mt-8 flex space-x-4">
+    <!-- Image Valorant Randomizer en haut à gauche -->
+    <div class="absolute mb-8 flex justify-center pb-80 ">
+      <img src="../assets/img/valorant_randomizer.png" alt="Valorant Randomizer" class="img_valo" />
+    </div>
+
+    <div class="flex space-x-4 mt-8">
       <button @click="$router.push('/selectAgents')" class="call-to-action">
         <div>
             <div>
@@ -21,10 +23,6 @@
       </button>
     </div>
 
-    <div v-if="result" class="mt-8 text-center">
-      <h2 class="text-3xl font-semibold">{{ result.name }}</h2>
-      <p class="mt-2 text-xl">{{ result.type }}</p>
-    </div>
   </div>
 </template>
 
@@ -92,7 +90,7 @@ body {
   width: 100px;
   background-color: red;
   transform: skew(-10deg);
-  background-color: #ff4655;
+  background-color: #2B2B2B;
   width: 120%;
   left: -130%;
   transition: left 0.3s ease;
@@ -119,6 +117,10 @@ body {
 
 .call-to-action:hover > div::after {
   background-color: white;
+}
+
+.img_valo{
+  width: 36rem;
 }
 
 </style>
