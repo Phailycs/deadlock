@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'MainFont';
+  src: url('../fonts/Valorant\ Font.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SecondaryFont';
+  src: url('../fonts/Tungsten-Bold.otf') format('otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ThirdFont';
+  src: url('../fonts/Aileron-Bold.otf') format('otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ThirdFont';
+  src: url('../fonts/Aileron-Regular.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+    overflow: hidden;
+        background-image: url('../img/cc341b8c8d6adead81123bcd5297f839a5388d36-1756x808.webp');
+        background-size: cover;
+        background-position: center;
+  }

@@ -9,12 +9,12 @@
 <script>
 // Importer le composant Accueil
 import Accueil from './components/Accueil.vue';
-
+import SelectNumberAgent from './components/SelectNumberAgent.vue'; 
 
 export default {
   name: 'App',
   components: {
-    Accueil
+    Accueil, SelectNumberAgent
   }
 };
 </script>
