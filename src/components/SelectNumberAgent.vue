@@ -1,10 +1,4 @@
 <template>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-
   <div class="container mx-auto px-4 py-8 flex flex-col items-center text-center">
 
     <!-- Image Valorant Randomizer en haut à gauche -->
@@ -54,16 +48,16 @@
       <ul v-if="result.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 justify-center">
         <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4">
           <h3 class="text-lg font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
-          <img :src="agent.displayIcon" :alt="`Image de ${agent.displayName}`" class="w-42 h-42 pt-10 pb-2 " />
-          <p class="font-secondary-font text-5xl uppercase">{{ agent.displayName }}</p>
+          <img :src="agent.displayIcon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 " />
+          <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.displayName }}</p>
         </li>
       </ul>
     </div>
-
+    
     <!-- Bouton RANDOMIZE WEAPONS -->
         <div v-if="result.length > 0" class="flex items-center justify-center pt-32">
-        <a href="./accueil">
-          <button class="call-to-action">
+        <a href="./random-weapons">
+          <button class="call-to-action font-third-font font-bold">
               <div>
                   <div>
                       RANDOMIZE WEAPONS
@@ -126,12 +120,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.big-shoulders-stencil-text {
-  font-family: "Big Shoulders Stencil Text", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-}
-</style>

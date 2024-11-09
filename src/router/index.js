@@ -3,6 +3,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Accueil from '../components/Accueil.vue';
 import SelectNumberAgent from '../components/SelectNumberAgent';
+import SelectMoneyWeapons from '../components/SelectMoneyWeapons.vue';
+import RandomWeaponsSelector from '../components/RandomWeaponsSelector.vue';
 
 const routes = [
   {
@@ -14,6 +16,16 @@ const routes = [
     path: '/selectAgents',
     name: 'SelectNumberAgent',
     component: SelectNumberAgent,
+  },
+  {
+    path: '/selectMoney',
+    name: 'SelectMoneyWeapons',
+    component: SelectMoneyWeapons,
+  },
+  {
+    path: '/randomWeapons',
+    name: 'RandomWeaponsSelector',
+    component: RandomWeaponsSelector,
   }
 ];
 

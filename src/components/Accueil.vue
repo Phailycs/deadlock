@@ -14,7 +14,7 @@
             </div>
         </div>
       </button>
-      <button @click="randomizeWeapon" class="call-to-action">
+      <button @click="$router.push('/selectMoney')" class="call-to-action">
         <div>
             <div>
             RANDOMIZE WEAPONS

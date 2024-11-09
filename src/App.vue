@@ -14,22 +14,25 @@
 // Importer le composant Accueil
 import Accueil from './components/Accueil.vue';
 import SelectNumberAgent from './components/SelectNumberAgent.vue';
+import SelectMoneyWeapons from './components/SelectMoneyWeapons.vue';
+import RandomWeaponsSelector from './components/RandomWeaponsSelector.vue';
 import '@/assets/styles/boutons.css';
 
 export default {
   name: 'App',
   components: {
-    Accueil, SelectNumberAgent
+    Accueil, SelectNumberAgent, SelectMoneyWeapons, RandomWeaponsSelector
   },
   computed: {
     backgroundImage() {
-      switch (this.$route.path) {
-        case '/accueil':
-          return require('@/assets/img/background1.svg');
-        case '/selectAgents':
-          return require('@/assets/img/background2.svg');
-        default:
-          return require('@/assets/img/background2.svg');
+      if (this.$route.path == '/accueil'){
+        return require('@/assets/img/background1.svg');
+      } else if (this.$route.path == '/selectAgents' || '/selectMoney'){
+        return require('@/assets/img/background2.svg');
+      } else if (this.$route.path == '/randomWeapons'){
+        return require('@/assets/img/background3.svg');
+      } else {
+        return require('@/assets/img/background2.svg');
       }
     }
   }
