@@ -10,6 +10,9 @@ module.exports = {
         'main-font': ['MainFont', 'sans-serif'],
         'secondary-font': ['SecondaryFont', 'sans-serif'],
         'third-font': ['ThirdFont', 'sans-serif']
+      },
+      colors: {
+        'black-grey': '#2B2B2B',
       }
     },
   },

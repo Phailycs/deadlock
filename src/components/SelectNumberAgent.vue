@@ -15,23 +15,23 @@
     </div>
 
     <!-- Titre AGENTS -->
-    <h1 class="text-9xl text-white mb-4 anton-regular pt-24">AGENTS</h1>
+    <h1 class="text-9xl text-black-grey font-secondary-font mb-4 pt-24">AGENTS</h1>
 
     <!-- Section Number of players -->
     <div v-if="result.length === 0" class="flex flex-col gap-4 items-center">
-      <div class="text-xl text-white mb-4 pt-24 red-hat-display">Number of players</div>
+      <div class="text-xl text-white mb-4 pt-24 font-third-font font-regular">Number of players</div>
 
       <!-- Sélecteur de nombre d'agents -->
       <div class="flex items-center gap-4">
         <button 
-          class="w-10 h-10  text-black text-5xl rounded-full flex items-center justify-center pr-6 "
+          class="w-10 h-10  text-black-grey text-5xl rounded-full flex items-center justify-center pr-6 "
           @click="decrement"
         >-</button>
-        <div class="w-32 h-12 flex items-center justify-center input_color text-white text-2xl font-bold">
+        <div class="w-32 h-12 flex items-center justify-center bg-black-grey text-white text-2xl font-third-font font-regular">
           {{ numberAgent }}
         </div>
         <button 
-          class="w-10 h-10 text-black text-5xl rounded-full flex items-center justify-center pl-6 "
+          class="w-10 h-10 text-black-grey text-5xl rounded-full flex items-center justify-center pl-6 "
           @click="increment"
         >+</button>
       </div>
@@ -39,7 +39,7 @@
         <!-- Bouton RANDOMIZE -->
         <div class="flex items-center justify-center pt-32">
 
-          <button @click="randomizeAgent" class="call-to-action">
+          <button @click="randomizeAgent" class="call-to-action font-third-font font-bold">
               <div>
                   <div>
                       RANDOMIZE
@@ -53,9 +53,9 @@
     <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 justify-center">
         <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4">
-          <h3 class="text-lg font-bold big-shoulders-stencil-text text-white text-4xl">Player {{ index + 1 }}</h3>
+          <h3 class="text-lg font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
           <img :src="agent.displayIcon" :alt="`Image de ${agent.displayName}`" class="w-42 h-42 pt-10 pb-2 " />
-          <p class="anton-regular-agent text-5xl uppercase">{{ agent.displayName }}</p>
+          <p class="font-secondary-font text-5xl uppercase">{{ agent.displayName }}</p>
         </li>
       </ul>
     </div>
@@ -128,121 +128,10 @@ export default {
 </script>
 
 <style scoped>
-.call-to-action {
-  height: 68px;
-  background-color: transparent;
-  border: none;
-  position: relative;
-  box-sizing: border-box;
-  padding: 7px;
-  cursor: pointer;
-}
-
-.call-to-action::before,
-.call-to-action::after {
-  content: "";
-  position: absolute;
-  border: 1px solid white;
-  height: 30px;
-  box-sizing: border-box;
-  left: 0;
-  right: 0;
-}
-
-.call-to-action::before {
-  top: 0;
-  border-bottom: none;
-}
-
-.call-to-action::after {
-  bottom: 0;
-  border-top: none;
-}
-
-.call-to-action > div {
-  background-color: white;
-  color: #0f1923;
-  height: 100%;
-  text-transform: uppercase;
-  vertical-align: center;
-  padding: 0 4em;
-  font-weight: bold;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  transition: color 0.3s ease;
-}
-
-.call-to-action > div > div {
-  z-index: 1;
-}
-
-.call-to-action > div::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100px;
-  background-color: red;
-  transform: skew(-10deg);
-  background-color: #2B2B2B;
-  width: 120%;
-  left: -130%;
-  transition: left 0.3s ease;
-}
-
-.call-to-action > div::after {
-  content: "";
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  bottom: 0;
-  right: 0;
-  background-color: #0f1923;
-  transition: background-color 0.3s ease;
-}
-
-.call-to-action:hover > div {
-  color: white;
-}
-
-.call-to-action:hover > div::before {
-  left: -10%;
-}
-
-.call-to-action:hover > div::after {
-  background-color: white;
-}
-
-.anton-regular {
-  font-family: "Anton", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  color: #2B2B2B;
-}
-
-.anton-regular-agent {
-  font-family: "Anton", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  color: white;
-}
-
-.red-hat-display{
-  font-family: "Red Hat Display", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-}
-
 .big-shoulders-stencil-text {
   font-family: "Big Shoulders Stencil Text", sans-serif;
   font-optical-sizing: auto;
   font-weight: <weight>;
   font-style: normal;
-}
-
-.input_color{
-  background-color: #2B2B2B;
 }
 </style>
