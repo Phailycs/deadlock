@@ -16,12 +16,16 @@
 <script>
 
 export default {
-  props: ['costs'],
   data() {
     return {
       weapons: [], // Les weapons récupérés de l'API
       result: []
     };
+  },
+  computed: {
+    cost() {
+      return this.$route.params.cost;
+    }
   },
   methods: {
     

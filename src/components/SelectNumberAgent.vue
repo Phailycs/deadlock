@@ -56,7 +56,7 @@
     
     <!-- Bouton RANDOMIZE WEAPONS -->
         <div v-if="result.length > 0" class="flex items-center justify-center pt-32">
-        <a href="./random-weapons">
+        <a href="./selectMoney">
           <button class="call-to-action font-third-font font-bold">
               <div>
                   <div>

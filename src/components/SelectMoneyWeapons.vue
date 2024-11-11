@@ -12,7 +12,7 @@
         <h1 class="text-9xl text-black-grey font-secondary-font mb-4 pt-24">WEAPONS</h1>
         <div class="text-xl text-white pt-12 font-third-font font-regular">Choose your poison</div>
         <div class="flex space-x-12 mt-16 font-third-font font-bold">
-          <button class="money-button" @click="navigateToNextPage(800)">
+          <button class="money-button" @click="sendMoney(800)">
             <div>
               <div>
                 <p>Pistol</p>
@@ -20,7 +20,7 @@
               </div>
             </div>
           </button>
-          <button class="money-button" @click="navigateToNextPage(1100)">
+          <button class="money-button" @click="sendMoney(1100)">
             <div>
               <div>
                 <p>Eco</p>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </button>
-          <button class="money-button" @click="navigateToNextPage(2700)">
+          <button class="money-button" @click="sendMoney(2700)">
             <div>
               <div>
                 <p>Low buy</p>
@@ -46,7 +46,7 @@
               </div>
             </div>
           </button>
-          <button class="money-button" @click="navigateToNextPage(4200)">
+          <button class="money-button" @click="sendMoney(4200)">
             <div>
               <div>
                 <p>Full buy</p>
@@ -54,7 +54,7 @@
               </div>
             </div>
           </button>
-          <button class="money-button" @click="navigateToNextPage(9000)">
+          <button class="money-button" @click="sendMoney(9000)">
             <div>
               <div>
                 <p>Jeff buy</p>
@@ -70,7 +70,7 @@
     
     export default {
       methods: {
-        navigateToNextPage(cost) {
+        sendMoney(cost) {
           this.$router.push({ name: 'RandomWeaponsSelector', params: { cost } });
         }
       }

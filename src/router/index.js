@@ -23,10 +23,9 @@ const routes = [
     component: SelectMoneyWeapons,
   },
   {
-    path: '/randomWeapons',
+    path: '/randomWeapons/:cost',
     name: 'RandomWeaponsSelector',
     component: RandomWeaponsSelector,
-    props: true
   }
 ];
 

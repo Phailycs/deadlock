@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div :style="{ backgroundImage: `url(${backgroundImage})` }" class="relative h-screen bg-cover"> <!-- Arrière-plan dynamique -->
+    <div :style="{ backgroundImage: `url(${backgroundImage})` }" class="relative h-screen bg-cover bg-center bg-no-repeat"> <!-- Arrière-plan dynamique -->
       <div class="absolute inset-0"> <!-- Positionne en haut à gauche de l'arrière-plan -->
         <router-view />  <!-- C'est ici que le composant correspondant à la route sera affiché -->
       </div>
