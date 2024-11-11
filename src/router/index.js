@@ -26,6 +26,7 @@ const routes = [
     path: '/randomWeapons',
     name: 'RandomWeaponsSelector',
     component: RandomWeaponsSelector,
+    props: true
   }
 ];
 

@@ -2,19 +2,19 @@
   <div class="flex flex-col items-center justify-center min-h-screen text-white">
 
     <!-- Image Valorant Randomizer en haut à gauche -->
-    <div class="absolute mb-8 flex justify-center pb-80 ">
-      <img src="../assets/img/valorant_randomizer.png" alt="Valorant Randomizer" class="img_valo" />
+    <div class="absolute mt-48 flex justify-center pb-80 ">
+      <img src="../assets/img/valorant_randomizer.svg" alt="Valorant Randomizer" class="img_valo" />
     </div>
 
-    <div class="flex space-x-4 mt-8">
-      <button @click="$router.push('/selectAgents')" class="call-to-action">
+    <div class="flex space-x-8 mt-32">
+      <button @click="$router.push('/selectAgents')" class="call-to-action font-third-font font-bold">
         <div>
             <div>
             RANDOMIZE AGENTS
             </div>
         </div>
       </button>
-      <button @click="$router.push('/selectMoney')" class="call-to-action">
+      <button @click="$router.push('/selectMoney')" class="call-to-action font-third-font font-bold">
         <div>
             <div>
             RANDOMIZE WEAPONS

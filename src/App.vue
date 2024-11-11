@@ -1,5 +1,3 @@
-// src/App.vue
-
 <template>
   <div id="app">
     <div :style="{ backgroundImage: `url(${backgroundImage})` }" class="relative h-screen bg-cover"> <!-- Arrière-plan dynamique -->
@@ -25,14 +23,14 @@ export default {
   },
   computed: {
     backgroundImage() {
-      if (this.$route.path == '/accueil'){
-        return require('@/assets/img/background1.svg');
-      } else if (this.$route.path == '/selectAgents' || '/selectMoney'){
-        return require('@/assets/img/background2.svg');
-      } else if (this.$route.path == '/randomWeapons'){
-        return require('@/assets/img/background3.svg');
+      if (this.$route.path === '/accueil') {
+        return require('@/assets/img/bg-accueil.svg');
+      } else if (this.$route.path === '/selectAgents' || this.$route.path === '/selectMoney') {
+        return require('@/assets/img/bg-settings.svg');
+      } else if (this.$route.path === '/randomWeapons') {
+        return require('@/assets/img/bg-results.svg');
       } else {
-        return require('@/assets/img/background2.svg');
+        return require('@/assets/img/bg-settings.svg');
       }
     }
   }
