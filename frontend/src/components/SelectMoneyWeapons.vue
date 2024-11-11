@@ -28,7 +28,7 @@
               </div>
             </div>
           </button>
-          <button class="money-button" @click="sendMoney(2700)">
+          <button class="money-button " @click="sendMoney(2700)">
             <div>
               <div>
                 <p>Low buy</p>

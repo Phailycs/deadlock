@@ -90,94 +90,96 @@
   /* FIN BOUTONS STANDARD*/
   /*////////////////////*/
 
-  /*/////////////////////*/
-  /* DEBUT BOUTONS MONEY*/
-  /*///////////////////*/
-  .money-button {
-    height: 5em;
-    background-color: transparent;
-    border: none;
-    position: relative;
-    box-sizing: border-box;
-    padding: 7px;
-    cursor: pointer;
-  }
   
-  .money-button::before,
-  .money-button::after {
-    content: "";
-    position: absolute;
-    border: 1px solid white;
-    height: 30px;
-    box-sizing: border-box;
-    left: 0;
-    right: 0;
-  }
-  
-  .money-button::before {
-    top: 0;
-    border-bottom: none;
-  }
-  
-  .money-button::after {
-    bottom: 0;
-    border-top: none;
-  }
-  
-  .money-button > div {
-    background-color: white;
-    color: #2B2B2B;
-    height: 100%;
-    text-transform: uppercase;
-    vertical-align: center;
-    padding: 2em 1.2em;
-    font-weight: bold;
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    transition: color 0.3s ease;
-  }
-  
-  .money-button > div > div {
-    z-index: 1;
-  }
-  
-  .money-button > div::before {
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 100px;
-    background-color: red;
-    transform: skew(-10deg);
-    background-color: #2B2B2B;
-    width: 120%;
-    left: -130%;
-    transition: left 0.3s ease;
-  }
-  
-  .money-button > div::after {
-    content: "";
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    bottom: 0;
-    right: 0;
-    background-color: #2B2B2B;
-    transition: background-color 0.3s ease;
-  }
-  
-  .money-button:hover > div {
-    color: white;
-  }
-  
-  .money-button:hover > div::before {
-    left: -10%;
-  }
-  
-  .money-button:hover > div::after {
-    background-color: white;
-  }
-  /*/////////////////////*/
-  /* FIN BOUTONS MONEY*/
-  /*///////////////////*/
+/*/////////////////////*/
+/* DEBUT BOUTONS MONEY*/
+/*///////////////////*/
+.money-button {
+  height: 5em;
+  width: 12em; /* Définir une largeur fixe */
+  background-color: transparent;
+  border: none;
+  position: relative;
+  box-sizing: border-box;
+  padding: 7px;
+  cursor: pointer;
+}
+
+.money-button::before,
+.money-button::after {
+  content: "";
+  position: absolute;
+  border: 1px solid white;
+  height: 30px;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+}
+
+.money-button::before {
+  top: 0;
+  border-bottom: none;
+}
+
+.money-button::after {
+  bottom: 0;
+  border-top: none;
+}
+
+.money-button > div {
+  background-color: white;
+  color: #2B2B2B;
+  height: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: relative;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;    /* Centre verticalement */
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.money-button > div > div {
+  z-index: 1;
+}
+
+.money-button > div::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100px;
+  background-color: red;
+  transform: skew(-10deg);
+  background-color: #2B2B2B;
+  width: 120%;
+  left: -130%;
+  transition: left 0.3s ease;
+}
+
+.money-button > div::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  bottom: 0;
+  right: 0;
+  background-color: #2B2B2B;
+  transition: background-color 0.3s ease;
+}
+
+.money-button:hover > div {
+  color: white;
+}
+
+.money-button:hover > div::before {
+  left: -10%;
+}
+
+.money-button:hover > div::after {
+  background-color: white;
+}
+
+/*/////////////////////*/
+/* FIN BOUTONS MONEY*/
+/*///////////////////*/

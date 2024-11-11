@@ -21,7 +21,7 @@ const fetchAgents = async () => {
 const fetchWeapons = async () => {
   try {
     const query = `
-      SELECT name, icon, category FROM weapons;
+      SELECT name, icon, category, cost FROM weapons;
     `;
     const result = await pool.query(query);
     return result.rows;
