@@ -1,5 +1,11 @@
 const { Pool } = require('pg');
-require('dotenv').config();
+require('dotenv').config(); // Utilisé uniquement pour le développement local
+
+// Vérifiez si DATABASE_URL est défini
+if (!process.env.DATABASE_URL) {
+  console.error('La variable d\'environnement DATABASE_URL n\'est pas définie.');
+  process.exit(1); // Arrêtez l'application si DATABASE_URL n'est pas défini
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
