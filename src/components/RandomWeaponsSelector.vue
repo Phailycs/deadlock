@@ -10,17 +10,42 @@
         <!-- Titre WEAPONS -->
         <h1 class="text-9xl text-black-grey font-secondary-font mb-4 pt-24">WEAPONS</h1>
         <div>Cost: {{ cost }}</div>
+        <ul>
+          <li v-for="item in items" :key="item.name" class="mb-4">
+            <div class="relative">
+              <img :src="getBackgroundImage(item.category)" alt="Valorant Randomizer" class="w-full h-auto">
+              <span class="absolute top-0 left-1/2 transform -translate-x-1/2 pt-10 font-third-font font-regular text-xl">{{ getText(item.category) }}</span>
+              <div class="absolute top-1/2 left-1/2 transform -translate-x-40 -translate-y-12 w-68 h-68 sm:w-72 sm:h-72 md:w-76 md:h-76 lg:w-80 lg:h-80">
+                <img :src="item.icon" :alt="'Image de ' + item.category" class="max-w-full max-h-full">
+              </div>
+              <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-10 font-third-font font-bold uppercase text-2xl">{{ item.name }}</span>
+            </div>
+          </li>
+        </ul>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      weapons: [], // Les weapons récupérés de l'API
-      result: []
+      items: [],
+      result: [],
+      filter: [],
     };
+  },
+  async created() {
+    try {
+      const weaponsResponse = await axios.get('http://localhost:5000/api/weapons');
+      const gearsResponse = await axios.get('http://localhost:5000/api/gears');
+      this.items = [...weaponsResponse.data, ...gearsResponse.data];
+    } catch (error) {
+      console.error('Erreur récup données:', error);
+    }
+
+    this.result;
   },
   computed: {
     cost() {
@@ -28,7 +53,25 @@ export default {
     }
   },
   methods: {
-    
+    getBackgroundImage(category) {
+      switch (category) {
+        case 'Pistols':
+          return '../assets/img/weapons/bg-secondary.svg';
+        default:
+          return '../assets/img/weapons/bg-primary.svg';
+      }
+    },
+    getText(category) {
+      switch (category) {
+        case 'Pistols':
+          return 'Secondary';
+        default:
+          return 'Primary';
+      }
+    },
+    tryAgain(){
+      
+    }
   },
 };
 </script>
