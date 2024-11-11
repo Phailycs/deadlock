@@ -1,4 +1,3 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -34,7 +33,7 @@ app.get('/api/weapons', async (req, res) => {
       res.status(500).send('Erreur serveur');
     }
   });
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Serveur en écoute sur le port ${PORT}`);
 });
