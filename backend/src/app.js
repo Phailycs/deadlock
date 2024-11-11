@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/agents', async (req, res) => {
+app.get('/agents', async (req, res) => {
   try {
     const agents = await fetchAgents();
     res.json(agents);
@@ -16,7 +16,7 @@ app.get('/api/agents', async (req, res) => {
   }
 });
 
-app.get('/api/weapons', async (req, res) => {
+app.get('/weapons', async (req, res) => {
     try {
       const weapons = await fetchWeapons();
       res.json(weapons);
@@ -25,7 +25,7 @@ app.get('/api/weapons', async (req, res) => {
     }
   });
 
-  app.get('/api/gears', async (req, res) => {
+  app.get('/gears', async (req, res) => {
     try {
       const gears = await fetchGears();
       res.json(gears);
@@ -33,7 +33,6 @@ app.get('/api/weapons', async (req, res) => {
       res.status(500).send('Erreur serveur');
     }
   });
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Serveur en écoute sur le port ${PORT}`);
-});
+
+app.use('/api', api);
+module.exports = app;
