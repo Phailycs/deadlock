@@ -9,39 +9,48 @@
 
     <!-- Titre WEAPONS -->
     <h1 class="text-9xl text-black-grey font-secondary-font mb-4 pt-24">WEAPONS</h1>
-    <div>Cost: {{ cost }}</div>
 
     <!-- Liste des armes -->
     <div class="flex justify-center flex-wrap gap-8">
       <!-- Si une seule arme, la centrer -->
       <div v-if="randomWeapons.length === 1" class="flex justify-center">
-        <div v-for="item in randomWeapons" :key="item.name" class="bg-white p-6 rounded-lg shadow-lg w-96 h-96 flex flex-col justify-between">
+        <div v-for="item in randomWeapons" :key="item.name" class="bg-white p-6 shadow-lg w-96 h-96 flex flex-col justify-between">
           <!-- Nom de la catégorie -->
-          <p class="font-third-font font-bold uppercase">{{ getText(item.category) }}</p>
+          <p class="font-third-font font-bold">{{ getText(item.category) }}</p>
 
           <!-- Image de l'arme avec taille fixe et maintien des proportions -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" :style="getImageStyle(item.icon)" />
+          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" />
 
           <!-- Nom de l'arme en bas -->
-          <h2 class="text-xl font-third-font font-bold uppercase mb-4">{{ item.name }}</h2>
+          <h2 class="text-6xl font-third-font font-bold uppercase mb-4">{{ item.name }}</h2>
         </div>
       </div>
 
       <!-- Si plusieurs armes -->
       <div v-else class="flex gap-8">
-        <div v-for="item in randomWeapons" :key="item.name" class="bg-white p-6 rounded-lg shadow-lg w-96 h-96 flex flex-col justify-between">
+        <div v-for="(item, index) in randomWeapons" :key="item.name" class="bg-white agent-item py-6 shadow-lg flex flex-col justify-between m-20 largeur">
 
           <!-- Nom de la catégorie -->
-          <p class="font-third-font font-bold uppercase">{{ getText(item.category) }}</p>
+          <p class="font-third-font font-bold py-6">{{ getText(item.category) }}</p>
 
           <!-- Image de l'arme avec taille fixe et maintien des proportions -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" :style="getImageStyle(item.icon)" />
+          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4 py-6" />
 
           <!-- Nom de l'arme en bas -->
-          <h2 class="text-black font-secondary-font text-2xl uppercase mb-4">{{ item.name }}</h2>
+          <h2 class="text-black font-secondary-font text-6xl uppercase mb-4">{{ item.name }}</h2>
+          
+            <!-- Bouton TRY AGAIN pour re-randomiser les armes -->
+              <button v-if="item" @click="randomizeSingleWeapons(index)" class="call-to-action font-third-font font-bold try-again-button">
+                <div>
+                  <div>
+                    TRY AGAIN
+                  </div>
+                </div>
+              </button>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -53,6 +62,7 @@ export default {
     return {
       items: [],
       randomWeapons: [],
+      result: [],
     };
   },
   async created() {
@@ -101,92 +111,123 @@ export default {
           return 'Primary';
       }
     },
-    getImageStyle(iconUrl) {
-      const image = new Image();
-      image.src = iconUrl;
-      const imageWidth = image.width;
-      const imageHeight = image.height;
+    generateRandomCombination(availableWeapons, budget) {
+      const selectedWeapons = [];
+      let totalCost = 0;
+      const categoriesSelected = new Set(); // Pour garder une arme par catégorie
+      let heavyWeaponSelected = false; // Indicateur pour savoir si une grosse arme a été sélectionnée
+      let pistolSelected = false; // Indicateur pour savoir si un pistolet a été sélectionné
 
-      // Détermine la taille maximale en fonction de l'image
-      let maxWidth = '192px'; // Valeur par défaut
-      let maxHeight = '192px'; // Valeur par défaut
+      const heavyWeapons = availableWeapons.filter(weapon => this.isHeavyWeapon(weapon));
+      const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
+      const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
 
-      if (imageWidth > imageHeight) {
-        maxWidth = '300px'; // Si l'image est plus large, l'agrandir
-      } else {
-        maxHeight = '300px'; // Si l'image est plus haute, l'agrandir
-      }
+      const shuffledHeavyWeapons = heavyWeapons.sort(() => 0.5 - Math.random());
+      const shuffledPistols = pistols.sort(() => 0.5 - Math.random());
+      const shuffledRegularWeapons = regularWeapons.sort(() => 0.5 - Math.random());
 
-      return {
-        maxWidth: maxWidth,
-        maxHeight: maxHeight,
-        objectFit: 'contain', // Garder les proportions de l'image
-      };
-    },
-      
-  generateRandomCombination(availableWeapons, budget) {
-    const selectedWeapons = [];
-    let totalCost = 0;
-    const categoriesSelected = new Set(); // Pour garder une arme par catégorie
-    let heavyWeaponSelected = false; // Indicateur pour savoir si une grosse arme a été sélectionnée
-    let pistolSelected = false; // Indicateur pour savoir si un pistolet a été sélectionné
-
-    // Séparer les armes lourdes, les pistolets et les autres
-    const heavyWeapons = availableWeapons.filter(weapon => this.isHeavyWeapon(weapon));
-    const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
-    const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
-
-    // Mélanger les armes (les armes lourdes, pistols et autres séparément)
-    const shuffledHeavyWeapons = heavyWeapons.sort(() => 0.5 - Math.random());
-    const shuffledPistols = pistols.sort(() => 0.5 - Math.random());
-    const shuffledRegularWeapons = regularWeapons.sort(() => 0.5 - Math.random());
-
-    // Sélectionner une grosse arme (si possible)
-    for (let weapon of shuffledHeavyWeapons) {
-      if (heavyWeaponSelected) continue; // Ne sélectionner qu'une seule grosse arme
-
-      if (totalCost + weapon.cost <= budget) {
-        selectedWeapons.push(weapon);
-        totalCost += weapon.cost;
-        heavyWeaponSelected = true; // Marquer une grosse arme comme sélectionnée
-        categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
-        break; // Sortir une fois qu'une grosse arme est sélectionnée
-      }
-    }
-
-    // Sélectionner un pistolet (si possible)
-    if (!pistolSelected) {
-      for (let weapon of shuffledPistols) {
+      for (let weapon of shuffledHeavyWeapons) {
+        if (heavyWeaponSelected) continue;
         if (totalCost + weapon.cost <= budget) {
           selectedWeapons.push(weapon);
           totalCost += weapon.cost;
-          pistolSelected = true; // Marquer un pistolet comme sélectionné
-          categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
-          break; // Sortir après avoir sélectionné un pistolet
+          heavyWeaponSelected = true;
+          categoriesSelected.add(weapon.category);
+          break;
         }
       }
-    }
 
-    // Sélectionner les autres armes (jusqu'à une arme supplémentaire, sauf pistolet et grosse arme)
-    for (let weapon of shuffledRegularWeapons) {
-      if (selectedWeapons.length >= 2) break; // Limiter à 2 armes au total
-
-      if (categoriesSelected.has(weapon.category)) continue; // Éviter de sélectionner deux armes du même type
-
-      if (totalCost + weapon.cost <= budget) {
-        selectedWeapons.push(weapon);
-        totalCost += weapon.cost;
-        categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
+      if (!pistolSelected) {
+        for (let weapon of shuffledPistols) {
+          if (totalCost + weapon.cost <= budget) {
+            selectedWeapons.push(weapon);
+            totalCost += weapon.cost;
+            pistolSelected = true;
+            categoriesSelected.add(weapon.category);
+            break;
+          }
+        }
       }
-    }
 
-    return selectedWeapons;
-  },
+      for (let weapon of shuffledRegularWeapons) {
+        if (selectedWeapons.length >= 2) break;
+        if (categoriesSelected.has(weapon.category)) continue;
+        if (totalCost + weapon.cost <= budget) {
+          selectedWeapons.push(weapon);
+          totalCost += weapon.cost;
+          categoriesSelected.add(weapon.category);
+        }
+      }
+
+      return selectedWeapons;
+    },
     isHeavyWeapon(weapon) {
-      // Liste des types d'armes "grosse arme"
       const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
       return heavyWeaponTypes.includes(weapon.type);
+    },
+    randomizeSingleWeapons(index) {
+      const weaponsCopy = [...this.items];
+      let newWeapon;
+
+      // Vérifier que la nouvelle arme n'est pas déjà dans la sélection
+      do {
+        const randomIndex = Math.floor(Math.random() * weaponsCopy.length);
+        newWeapon = weaponsCopy[randomIndex];
+      } while (this.randomWeapons.includes(newWeapon));
+
+      // Remplacer l'arme à l'index donné directement
+      this.randomWeapons.splice(index, 1, newWeapon);
     }
+
+
   }
 };
 </script>
+
+<style>
+.largeur {
+  width: 40rem;
+}
+
+/* No change: Hides button by default */
+.try-again-button {
+  opacity: 0;
+  pointer-events: none;
+  /* ... rest of styles ... */
+}
+
+/* Show button on hover */
+.agent-item:hover .try-again-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Apply blur to image and name on hover (within agent-item) */
+.agent-item:hover > img,
+.agent-item:hover h2,
+.agent-item:hover p {
+  filter: blur(5px) brightness(0.3); /* Applique un flou et assombrit */
+  transition: filter 0.3s ease;
+}
+
+/* Cacher le bouton "Try Again" par défaut */
+.try-again-button {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Fond sombre */
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, pointer-events 0.3s ease;
+}
+
+/* Afficher le bouton au survol */
+.agent-item:hover .try-again-button {
+  opacity: 1;
+  pointer-events: auto; /* Rendre le bouton cliquable */
+}
+</style>

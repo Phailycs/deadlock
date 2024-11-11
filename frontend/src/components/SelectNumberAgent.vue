@@ -46,8 +46,8 @@
     <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="flex flex-wrap justify-center gap-4">
         <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4 agent-item relative">
-          <h3 class="text-lg font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
-          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 " />
+          <h3 class="font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
+          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="h-38 pt-10 pb-2 " />
           <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.name }}</p>
 
           <!-- Bouton Try Again centré en bas -->
