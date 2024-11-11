@@ -137,11 +137,19 @@ export default {
         this.result.push(selectedAgent);
       }
     },
+     // Fonction pour régénérer un seul agent sans dupliquer ceux déjà sélectionnés
     randomizeSingleAgent(index) {
       const agentsCopy = [...this.agents];
-      const randomIndex = Math.floor(Math.random() * agentsCopy.length);
-      const selectedAgent = agentsCopy.splice(randomIndex, 1)[0];
-      this.result[index] = selectedAgent;  // Remplacer directement l'élément dans le tableau
+      let newAgent;
+
+      // Vérifier que le nouvel agent n'est pas déjà dans la sélection
+      do {
+        const randomIndex = Math.floor(Math.random() * agentsCopy.length);
+        newAgent = agentsCopy[randomIndex];
+      } while (this.result.includes(newAgent));
+
+      // Remplacer l'agent à l'index donné
+      this.result[index] = newAgent;
     }
 
   },
