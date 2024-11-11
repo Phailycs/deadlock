@@ -45,10 +45,29 @@
     <!-- Liste des agents -->
     <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="flex flex-wrap justify-center gap-4">
-        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4">
-          <h3 class="text-lg font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
-          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 " />
+        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4 relative group">
+
+          <!-- Div avec l'image de l'agent -->
+          <div class="relative">
+            <div class="absolute inset-0 bg-black opacity-50 backdrop-blur-sm z-10"></div>
+            <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 z-20" />
+          </div>
+
           <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.name }}</p>
+
+          <!-- Bouton Try Again centré en bas -->
+          <button
+            v-if="agent"
+            @click="randomizeSingleAgent(index)"
+            class="call-to-action font-third-font font-bold absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
+            <div>
+              <div>
+                TRY AGAIN
+              </div>
+            </div>
+          </button>
+
         </li>
       </ul>
     </div>
@@ -67,6 +86,9 @@
     </div>
   </div>
 </template>
+
+
+
 
 <script>
 import axios from 'axios';
@@ -115,6 +137,13 @@ export default {
         this.result.push(selectedAgent);
       }
     },
+    randomizeSingleAgent(index) {
+      const agentsCopy = [...this.agents];
+      const randomIndex = Math.floor(Math.random() * agentsCopy.length);
+      const selectedAgent = agentsCopy.splice(randomIndex, 1)[0];
+      this.result[index] = selectedAgent;  // Remplacer directement l'élément dans le tableau
+    }
+
   },
 };
 </script>

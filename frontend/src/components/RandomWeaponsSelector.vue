@@ -124,7 +124,7 @@ export default {
       };
     },
       
-    generateRandomCombination(availableWeapons, budget) {
+  generateRandomCombination(availableWeapons, budget) {
     const selectedWeapons = [];
     let totalCost = 0;
     const categoriesSelected = new Set(); // Pour garder une arme par catégorie
@@ -136,13 +136,13 @@ export default {
     const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
     const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
 
-    // Trier les armes en fonction de leur coût décroissant pour chaque catégorie
-    const sortedHeavyWeapons = heavyWeapons.sort((a, b) => b.cost - a.cost);
-    const sortedPistols = pistols.sort((a, b) => b.cost - a.cost);
-    const sortedRegularWeapons = regularWeapons.sort((a, b) => b.cost - a.cost);
+    // Mélanger les armes (les armes lourdes, pistols et autres séparément)
+    const shuffledHeavyWeapons = heavyWeapons.sort(() => 0.5 - Math.random());
+    const shuffledPistols = pistols.sort(() => 0.5 - Math.random());
+    const shuffledRegularWeapons = regularWeapons.sort(() => 0.5 - Math.random());
 
     // Sélectionner une grosse arme (si possible)
-    for (let weapon of sortedHeavyWeapons) {
+    for (let weapon of shuffledHeavyWeapons) {
       if (heavyWeaponSelected) continue; // Ne sélectionner qu'une seule grosse arme
 
       if (totalCost + weapon.cost <= budget) {
@@ -156,7 +156,7 @@ export default {
 
     // Sélectionner un pistolet (si possible)
     if (!pistolSelected) {
-      for (let weapon of sortedPistols) {
+      for (let weapon of shuffledPistols) {
         if (totalCost + weapon.cost <= budget) {
           selectedWeapons.push(weapon);
           totalCost += weapon.cost;
@@ -168,7 +168,7 @@ export default {
     }
 
     // Sélectionner les autres armes (jusqu'à une arme supplémentaire, sauf pistolet et grosse arme)
-    for (let weapon of sortedRegularWeapons) {
+    for (let weapon of shuffledRegularWeapons) {
       if (selectedWeapons.length >= 2) break; // Limiter à 2 armes au total
 
       if (categoriesSelected.has(weapon.category)) continue; // Éviter de sélectionner deux armes du même type
@@ -182,11 +182,11 @@ export default {
 
     return selectedWeapons;
   },
-      isHeavyWeapon(weapon) {
-        // Liste des types d'armes "grosse arme"
-        const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
-        return heavyWeaponTypes.includes(weapon.type);
-      }
+    isHeavyWeapon(weapon) {
+      // Liste des types d'armes "grosse arme"
+      const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
+      return heavyWeaponTypes.includes(weapon.type);
+    }
   }
 };
 </script>
