@@ -33,6 +33,5 @@ app.get('/weapons', async (req, res) => {
       res.status(500).send('Erreur serveur');
     }
   });
-
-app.use('/api', api);
+  
 module.exports = app;
