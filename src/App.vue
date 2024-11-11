@@ -27,7 +27,7 @@ export default {
         return require('@/assets/img/bg-accueil.svg');
       } else if (this.$route.path === '/selectAgents' || this.$route.path === '/selectMoney') {
         return require('@/assets/img/bg-settings.svg');
-      } else if (this.$route.path === '/randomWeapons') {
+      } else if (/^\/randomWeapons\/\d+$/.test(this.$route.path)) {
         return require('@/assets/img/bg-results.svg');
       } else {
         return require('@/assets/img/bg-settings.svg');

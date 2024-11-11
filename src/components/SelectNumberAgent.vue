@@ -86,9 +86,8 @@ export default {
   methods: {
     async fetchAgents() {
       try {
-        const response = await axios.get('https://valorant-api.com/v1/agents');
-        // Filtrer les agents jouables
-        this.agents = response.data.data.filter(agent => agent.isPlayableCharacter);
+        const response = await axios.get('http://localhost:5000/api/agents'); // URL de l'API pour récupérer les agents
+        this.agents = response.data.filter(agent => agent.playable);
       } catch (error) {
         console.error("Erreur lors de la récupération des agents :", error);
       }
