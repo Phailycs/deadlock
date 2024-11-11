@@ -4,6 +4,7 @@ require('dotenv').config();
 const { fetchAgents, fetchWeapons, fetchGears } = require('./dataFetcher');
 
 const app = express();
+const api = require('./api');
 app.use(cors());
 app.use(express.json());
 
@@ -33,5 +34,5 @@ app.get('/weapons', async (req, res) => {
       res.status(500).send('Erreur serveur');
     }
   });
-  
+app.use('/api', api);
 module.exports = app;
