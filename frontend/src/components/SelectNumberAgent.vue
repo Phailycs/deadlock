@@ -101,7 +101,7 @@ export default {
   methods: {
     async fetchAgents() {
       try {
-        const response = await axios.get('https://deadlock-backend.vercel.app/api/agents'); // URL de l'API pour récupérer les agents
+        const response = await axios.get('https://deadlock-backend.vercel.app/api/agents');
         this.agents = response.data.filter(agent => agent.playable);
       } catch (error) {
         console.error("Erreur lors de la récupération des agents :", error);

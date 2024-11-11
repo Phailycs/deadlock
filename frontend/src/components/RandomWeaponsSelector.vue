@@ -25,7 +25,6 @@
           <h2 class="text-6xl font-third-font font-bold uppercase mb-4">{{ item.name }}</h2>
         </div>
       </div>
-
       <!-- Si plusieurs armes -->
       <div v-else class="flex gap-8">
         <div v-for="(item, index) in randomWeapons" :key="item.name" class="bg-white agent-item py-6 shadow-lg flex flex-col justify-between m-20 largeur">
@@ -67,14 +66,13 @@ export default {
   },
   async created() {
     try {
-      const weaponsResponse = await this.fetchWeapons('weapons');
-      const gearsResponse = await this.fetchWeapons('gears');
+      const weaponsResponse = await this.fetchApi('weapons');
+      const gearsResponse = await this.fetchApi('gears');
       this.items = [...weaponsResponse, ...gearsResponse];
 
       // Filtrer les armes par budget
       const availableWeapons = this.items.filter(item => item.cost <= this.cost);
 
-      // Générer une combinaison d'armes respectant la règle de 1 grosse arme max
       this.randomWeapons = this.generateRandomCombination(availableWeapons, this.cost);
     } catch (error) {
       console.error('Erreur de récupération des données:', error);
@@ -86,9 +84,9 @@ export default {
     }
   },
   methods: {
-    async fetchWeapons(type) {
+    async fetchApi(type) {
       try {
-        const response = await axios.get(`https://deadlock-backend.vercel.app/${type}`);
+        const response = await axios.get(`https://deadlock-backend.vercel.app/api/${type}`);
         return response.data;
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
