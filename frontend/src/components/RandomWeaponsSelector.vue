@@ -88,7 +88,7 @@ export default {
   methods: {
     async fetchWeapons(type) {
       try {
-        const response = await axios.get(`http://localhost:5000/api/${type}`);
+        const response = await axios.get(`https://deadlock-backend-flbwlu0r0-better-projects.vercel.app/${type}`);
         return response.data;
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
