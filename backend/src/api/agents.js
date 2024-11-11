@@ -2,7 +2,7 @@ const express = require('express');
 const { fetchAgents } = require('../dataFetcher');
 const router = express.Router();
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const agents = await fetchAgents();
       res.json(agents);
