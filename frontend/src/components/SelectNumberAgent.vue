@@ -44,11 +44,11 @@
 
     <!-- Liste des agents -->
     <div class="container mx-auto px-4 py-8 pt-30">
-      <ul v-if="result.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 justify-center">
-        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4 justify-center">
+      <ul v-if="result.length > 0" class="flex flex-wrap justify-center gap-4">
+        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4">
           <h3 class="text-lg font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
-          <img :src="agent.displayIcon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 " />
-          <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.displayName }}</p>
+          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="w-32 h-38 pt-10 pb-2 " />
+          <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.name }}</p>
         </li>
       </ul>
     </div>
