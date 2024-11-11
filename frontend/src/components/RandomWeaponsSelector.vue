@@ -19,8 +19,8 @@
           <!-- Nom de la catégorie -->
           <p class="font-third-font font-bold uppercase">{{ getText(item.category) }}</p>
 
-          <!-- Image de l'arme avec taille fixe -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="w-48 h-48 mx-auto mb-4" />
+          <!-- Image de l'arme avec taille fixe et maintien des proportions -->
+          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" :style="getImageStyle(item.icon)" />
 
           <!-- Nom de l'arme en bas -->
           <h2 class="text-xl font-third-font font-bold uppercase mb-4">{{ item.name }}</h2>
@@ -34,8 +34,8 @@
           <!-- Nom de la catégorie -->
           <p class="font-third-font font-bold uppercase">{{ getText(item.category) }}</p>
 
-          <!-- Image de l'arme avec taille fixe -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="w-48 h-48 mx-auto mb-4" />
+          <!-- Image de l'arme avec taille fixe et maintien des proportions -->
+          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" :style="getImageStyle(item.icon)" />
 
           <!-- Nom de l'arme en bas -->
           <h2 class="text-black font-secondary-font text-2xl uppercase mb-4">{{ item.name }}</h2>
@@ -101,72 +101,92 @@ export default {
           return 'Primary';
       }
     },
-    
-generateRandomCombination(availableWeapons, budget) {
-  const selectedWeapons = [];
-  let totalCost = 0;
-  const categoriesSelected = new Set(); // Pour garder une arme par catégorie
-  let heavyWeaponSelected = false; // Indicateur pour savoir si une grosse arme a été sélectionnée
-  let pistolSelected = false; // Indicateur pour savoir si un pistolet a été sélectionné
+    getImageStyle(iconUrl) {
+      const image = new Image();
+      image.src = iconUrl;
+      const imageWidth = image.width;
+      const imageHeight = image.height;
 
-  // Séparer les armes lourdes, les pistolets et les autres
-  const heavyWeapons = availableWeapons.filter(weapon => this.isHeavyWeapon(weapon));
-  const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
-  const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
+      // Détermine la taille maximale en fonction de l'image
+      let maxWidth = '192px'; // Valeur par défaut
+      let maxHeight = '192px'; // Valeur par défaut
 
-  // Mélanger les armes (les armes lourdes, pistols et autres séparément)
-  const shuffledHeavyWeapons = heavyWeapons.sort(() => 0.5 - Math.random());
-  const shuffledPistols = pistols.sort(() => 0.5 - Math.random());
-  const shuffledRegularWeapons = regularWeapons.sort(() => 0.5 - Math.random());
+      if (imageWidth > imageHeight) {
+        maxWidth = '300px'; // Si l'image est plus large, l'agrandir
+      } else {
+        maxHeight = '300px'; // Si l'image est plus haute, l'agrandir
+      }
 
-  // Sélectionner une grosse arme (si possible)
-  for (let weapon of shuffledHeavyWeapons) {
-    if (heavyWeaponSelected) continue; // Ne sélectionner qu'une seule grosse arme
+      return {
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        objectFit: 'contain', // Garder les proportions de l'image
+      };
+    },
+      
+    generateRandomCombination(availableWeapons, budget) {
+    const selectedWeapons = [];
+    let totalCost = 0;
+    const categoriesSelected = new Set(); // Pour garder une arme par catégorie
+    let heavyWeaponSelected = false; // Indicateur pour savoir si une grosse arme a été sélectionnée
+    let pistolSelected = false; // Indicateur pour savoir si un pistolet a été sélectionné
 
-    if (totalCost + weapon.cost <= budget) {
-      selectedWeapons.push(weapon);
-      totalCost += weapon.cost;
-      heavyWeaponSelected = true; // Marquer une grosse arme comme sélectionnée
-      categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
-      break; // Sortir une fois qu'une grosse arme est sélectionnée
-    }
-  }
+    // Séparer les armes lourdes, les pistolets et les autres
+    const heavyWeapons = availableWeapons.filter(weapon => this.isHeavyWeapon(weapon));
+    const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
+    const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
 
-  // Sélectionner un pistolet (si possible)
-  if (!pistolSelected) {
-    for (let weapon of shuffledPistols) {
+    // Trier les armes en fonction de leur coût décroissant pour chaque catégorie
+    const sortedHeavyWeapons = heavyWeapons.sort((a, b) => b.cost - a.cost);
+    const sortedPistols = pistols.sort((a, b) => b.cost - a.cost);
+    const sortedRegularWeapons = regularWeapons.sort((a, b) => b.cost - a.cost);
+
+    // Sélectionner une grosse arme (si possible)
+    for (let weapon of sortedHeavyWeapons) {
+      if (heavyWeaponSelected) continue; // Ne sélectionner qu'une seule grosse arme
+
       if (totalCost + weapon.cost <= budget) {
         selectedWeapons.push(weapon);
         totalCost += weapon.cost;
-        pistolSelected = true; // Marquer un pistolet comme sélectionné
+        heavyWeaponSelected = true; // Marquer une grosse arme comme sélectionnée
         categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
-        break; // Sortir après avoir sélectionné un pistolet
+        break; // Sortir une fois qu'une grosse arme est sélectionnée
       }
     }
-  }
 
-  // Sélectionner les autres armes (jusqu'à une arme supplémentaire, sauf pistolet et grosse arme)
-  for (let weapon of shuffledRegularWeapons) {
-    if (selectedWeapons.length >= 2) break; // Limiter à 2 armes au total
-
-    if (categoriesSelected.has(weapon.category)) continue; // Éviter de sélectionner deux armes du même type
-
-    if (totalCost + weapon.cost <= budget) {
-      selectedWeapons.push(weapon);
-      totalCost += weapon.cost;
-      categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
+    // Sélectionner un pistolet (si possible)
+    if (!pistolSelected) {
+      for (let weapon of sortedPistols) {
+        if (totalCost + weapon.cost <= budget) {
+          selectedWeapons.push(weapon);
+          totalCost += weapon.cost;
+          pistolSelected = true; // Marquer un pistolet comme sélectionné
+          categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
+          break; // Sortir après avoir sélectionné un pistolet
+        }
+      }
     }
-  }
 
-  return selectedWeapons;
-}
+    // Sélectionner les autres armes (jusqu'à une arme supplémentaire, sauf pistolet et grosse arme)
+    for (let weapon of sortedRegularWeapons) {
+      if (selectedWeapons.length >= 2) break; // Limiter à 2 armes au total
 
-,
-    isHeavyWeapon(weapon) {
-      // Liste des types d'armes "grosse arme"
-      const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
-      return heavyWeaponTypes.includes(weapon.type);
+      if (categoriesSelected.has(weapon.category)) continue; // Éviter de sélectionner deux armes du même type
+
+      if (totalCost + weapon.cost <= budget) {
+        selectedWeapons.push(weapon);
+        totalCost += weapon.cost;
+        categoriesSelected.add(weapon.category); // Marquer la catégorie comme sélectionnée
+      }
     }
+
+    return selectedWeapons;
+  },
+      isHeavyWeapon(weapon) {
+        // Liste des types d'armes "grosse arme"
+        const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
+        return heavyWeaponTypes.includes(weapon.type);
+      }
   }
 };
 </script>
