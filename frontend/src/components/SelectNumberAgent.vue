@@ -32,7 +32,7 @@
 
       <!-- Bouton RANDOMIZE -->
       <div class="flex items-center justify-center pt-32">
-        <button @click="randomizeAgent" class="call-to-action font-third-font font-bold">
+        <button @click="randomizeAgent" class="standard-button font-third-font font-bold">
           <div>
             <div>
               RANDOMIZE
@@ -45,17 +45,15 @@
     <!-- Liste des agents -->
     <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="flex flex-wrap justify-center gap-4">
-        <li v-for="(agent, index) in result" :key="agent.uuid" class="flex flex-col items-center gap-4 agent-item relative">
-          <h3 class="font-main-font text-white text-4xl">Player {{ index + 1 }}</h3>
-          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="h-38 pt-10 pb-2 " />
-          <p class="text-white font-secondary-font text-5xl uppercase">{{ agent.name }}</p>
+        <li v-for="(agent, index) in result" :key="agent.uuid" class="relative flex flex-col items-center gap-4 agent-item">
+          <h3 class="font-main-font text-white text-4xl z-0">Player {{ index + 1 }}</h3>
+          <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="h-60 pt-4 pb-2 z-10" />
+          <p class="text-white font-secondary-font text-5xl uppercase z-10">{{ agent.name }}</p>
 
           <!-- Bouton Try Again centré en bas -->
           <button
-            v-if="agent"
-            @click="randomizeSingleAgent(index)"
-            class="call-to-action font-third-font font-bold try-again-button"
-          >
+            v-if="agent" @click="randomizeSingleAgent(index)"
+            class="try-button try-again-button z-50 font-third-font font-bold text-2xl absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div>
               <div>
                 TRY AGAIN
@@ -69,7 +67,7 @@
     <!-- Bouton RANDOMIZE WEAPONS -->
     <div v-if="result.length > 0" class="flex items-center justify-center pt-32">
       <a href="./selectMoney">
-        <button class="call-to-action font-third-font font-bold">
+        <button class="standard-button font-third-font font-bold absolute">
           <div>
             <div>
               RANDOMIZE WEAPONS
@@ -151,43 +149,15 @@ export default {
 </script>
 
 <style>
-/* No change: Hides button by default */
-.try-again-button {
-  opacity: 0;
-  pointer-events: none;
-  /* ... rest of styles ... */
+.agent-item:hover > .z-10 {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
 }
 
-/* Show button on hover */
-.agent-item:hover .try-again-button {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Apply blur to image and name on hover (within agent-item) */
-.agent-item:hover > img,
-.agent-item:hover h3,
-.agent-item:hover p {
-  filter: blur(5px); /* Apply blur effect */
-  transition: filter 0.3s ease; /* Transition for blur */
-}
-
-/* Cacher le bouton "Try Again" par défaut */
-.try-again-button {
-  opacity: 0;
-  pointer-events: none; /* Empêche le bouton d'être cliquable tant qu'il n'est pas visible */
-  position: absolute;
-  bottom: 20px; /* Positionner en bas de l'image */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  z-index: 10; /* S'assurer que le bouton est au-dessus de l'image */
-  transition: opacity 0.3s ease, pointer-events 0.3s ease;
+.agent-item:hover {
+  background-color: #2B2B2B;
+  transition: 0.3s ease;
+  padding: 1.5%;
 }
 
 /* Afficher le bouton au survol */
@@ -195,5 +165,4 @@ export default {
   opacity: 1;
   pointer-events: auto; /* Rendre le bouton cliquable */
 }
-
 </style>

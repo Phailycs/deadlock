@@ -7,14 +7,14 @@
     </div>
 
     <div class="flex space-x-8 pb-24">
-      <button @click="$router.push('/selectAgents')" class="call-to-action font-third-font font-bold">
+      <button @click="$router.push('/selectAgents')" class="standard-button font-third-font font-bold">
         <div>
             <div>
             RANDOMIZE AGENTS
             </div>
         </div>
       </button>
-      <button @click="$router.push('/selectMoney')" class="call-to-action font-third-font font-bold">
+      <button @click="$router.push('/selectMoney')" class="standard-button font-third-font font-bold">
         <div>
             <div>
             RANDOMIZE WEAPONS

@@ -13,6 +13,7 @@ module.exports = {
       },
       colors: {
         'black-grey': '#2B2B2B',
+        'red-valorant': '#EB565B',
       }
     },
   },

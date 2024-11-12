@@ -59,16 +59,16 @@ export default {
 
 @font-face {
   font-family: 'ThirdFont';
-  src: url('@/assets/fonts/Aileron/Aileron-Heavy.woff') format('woff'),
-       url('@/assets/fonts/Aileron/Aileron-Heavy.woff2') format('woff2');
+  src: url('@/assets/fonts/Aileron/Aileron-Black.woff') format('woff'),
+       url('@/assets/fonts/Aileron/Aileron-Black.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'ThirdFont';
-  src: url('@/assets/fonts/Aileron/Aileron-Light.woff') format('woff'),
-       url('@/assets/fonts/Aileron/Aileron-Light.woff2') format('woff2');
+  src: url('@/assets/fonts/Aileron/Aileron-SemiBold.woff') format('woff'),
+       url('@/assets/fonts/Aileron/Aileron-SemiBold.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

@@ -8,48 +8,71 @@
     </div>
 
     <!-- Titre WEAPONS -->
-    <h1 class="text-9xl text-black-grey font-secondary-font mb-4 pt-24">WEAPONS</h1>
+    <h1 class="text-9xl text-black-grey font-secondary-font mb-24 pt-4">WEAPONS</h1>
 
     <!-- Liste des armes -->
     <div class="flex justify-center flex-wrap gap-8">
-      <!-- Si une seule arme, la centrer -->
-      <div v-if="randomWeapons.length === 1" class="flex justify-center">
-        <div v-for="item in randomWeapons" :key="item.name" class="bg-white p-6 shadow-lg w-96 h-96 flex flex-col justify-between">
-          <!-- Nom de la catégorie -->
-          <p class="font-third-font font-bold">{{ getText(item.category) }}</p>
-
-          <!-- Image de l'arme avec taille fixe et maintien des proportions -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4" />
-
-          <!-- Nom de l'arme en bas -->
-          <h2 class="text-6xl font-third-font font-bold uppercase mb-4">{{ item.name }}</h2>
+      <div v-for="(item, index) in randomWeapons" :key="item.name" class="relative bg-white weapons-item min-w-[20rem] min-h-[24rem] p-12 flex flex-col justify-between">
+        <div class="z-10">
+          <div :class="['absolute w-8 h-8 bg-red-valorant', item.category !== 'Pistols' ? 'top-0 left-0' : 'bottom-0 left-0']"></div>
+          <img src="@/assets/img/weapons/logo-val.svg" :class="['absolute w-5 h-5', item.category !== 'Pistols' ? 'top-1 left-1' : 'bottom-1 left-1']">
         </div>
-      </div>
-      <!-- Si plusieurs armes -->
-      <div v-else class="flex gap-8">
-        <div v-for="(item, index) in randomWeapons" :key="item.name" class="bg-white agent-item py-6 shadow-lg flex flex-col justify-between m-20 largeur">
-
-          <!-- Nom de la catégorie -->
-          <p class="font-third-font font-bold py-6">{{ getText(item.category) }}</p>
-
-          <!-- Image de l'arme avec taille fixe et maintien des proportions -->
-          <img :src="item.icon" :alt="'Image de ' + item.name" class="mx-auto mb-4 py-6" />
-
-          <!-- Nom de l'arme en bas -->
-          <h2 class="text-black font-secondary-font text-6xl uppercase mb-4">{{ item.name }}</h2>
-          
-            <!-- Bouton TRY AGAIN pour re-randomiser les armes -->
-              <button v-if="item" @click="randomizeSingleWeapons(index)" class="call-to-action font-third-font font-bold try-again-button">
-                <div>
-                  <div>
-                    TRY AGAIN
-                  </div>
-                </div>
-              </button>
+        
+        <!-- Section en haut pour afficher la catégorie -->
+        <div class="w-full text-center mb-12 z-10">
+          <p class="font-third-font text-2xl" style="filter:none;">{{ getText(item.category) }}</p>
         </div>
+
+        <!-- Conteneur de l'image de l'arme au centre -->
+        <div class="flex-grow flex justify-center items-center overflow-hidden z-0">
+          <img :src="item.icon" :alt="'Image de ' + item.name" class="max-h-40 max-w-full object-contain"/>
+        </div>
+
+        <!-- Section en bas pour afficher le nom de l'arme -->
+        <div class="w-full text-center my-4 z-0">
+          <h2 class="text-6xl font-secondary-font uppercase">{{ item.name }}</h2>
+        </div>
+
+        <!-- Bouton TRY AGAIN centré au milieu -->
+        <button v-if="item" @click="randomizeSingleWeapons(index)" class="standard-button try-again-button font-third-font font-bold absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div>
+            <div>TRY AGAIN</div>
+          </div>
+        </button>
       </div>
     </div>
-
+    <div class="flex space-x-12 mt-16 font-third-font font-bold">
+      <button class="money-button" @click="sendMoney(800)">
+        <div>
+          <div><p>Pistol</p><p>¤800</p></div>
+        </div>
+      </button>
+      <button class="money-button" @click="sendMoney(1100)">
+        <div>
+          <div><p>Eco</p><p>¤1100</p></div>
+        </div>
+      </button>
+      <button class="money-button " @click="sendMoney(2700)">
+        <div>
+          <div><p>Low buy</p><p>¤2700</p></div>
+        </div>
+      </button>
+      <button class="money-button" @click="sendMoney(3500)">
+        <div>
+          <div><p>Force buy</p><p>¤3500</p></div>
+        </div>
+      </button>
+      <button class="money-button" @click="sendMoney(4200)">
+        <div>
+          <div><p>Full buy</p><p>¤4200</p></div>
+        </div>
+      </button>
+      <button class="money-button" @click="sendMoney(9000)">
+        <div>
+          <div><p>Jeff buy</p><p>¤9000</p></div>
+        </div>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -93,13 +116,8 @@ export default {
         return [];
       }
     },
-    getBackgroundImage(category) {
-      switch (category) {
-        case 'Pistols':
-          return '../assets/img/weapons/bg-secondary.svg';
-        default:
-          return '../assets/img/weapons/bg-primary.svg';
-      }
+    sendMoney(cost) {
+      this.$router.push({ name: 'RandomWeaponsSelector', params: { cost } });
     },
     getText(category) {
       switch (category) {
@@ -183,49 +201,26 @@ export default {
 </script>
 
 <style>
-.largeur {
-  width: 40rem;
+.weapons-item:hover {
+  background-color: #2B2B2B;
+  transition: 0.3s ease;
 }
 
-/* No change: Hides button by default */
-.try-again-button {
-  opacity: 0;
-  pointer-events: none;
-  /* ... rest of styles ... */
-}
-
-/* Show button on hover */
-.agent-item:hover .try-again-button {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Apply blur to image and name on hover (within agent-item) */
-.agent-item:hover > img,
-.agent-item:hover h2,
-.agent-item:hover p {
-  filter: blur(5px) brightness(0.3); /* Applique un flou et assombrit */
-  transition: filter 0.3s ease;
-}
-
-/* Cacher le bouton "Try Again" par défaut */
-.try-again-button {
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.7); /* Fond sombre */
-  border: 2px solid white;
+.weapons-item:hover > .z-10 {
   color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: opacity 0.3s ease, pointer-events 0.3s ease;
 }
 
 /* Afficher le bouton au survol */
-.agent-item:hover .try-again-button {
+.weapons-item:hover .try-again-button {
   opacity: 1;
   pointer-events: auto; /* Rendre le bouton cliquable */
+}
+
+/* Appliquer un flou uniquement à l'image et au nom, sans affecter les icônes et la catégorie */
+.weapons-item:hover > .z-0 {
+  filter: blur(7px) brightness(0.8);
+  transition: filter 0.6s ease;
+  transition: color 0.3s ease;
+  color: white;
 }
 </style>
