@@ -3,7 +3,7 @@
       
           <!-- Image Valorant Randomizer en haut à gauche -->
           <div class="absolute top-4 left-4">
-          <a href="../accueil">
+          <a href="../">
             <img src="../assets/img/valorant_randomizer.svg" alt="Valorant Randomizer" class="w-64 h-auto pt-6 pl-6" />
           </a>
           </div>

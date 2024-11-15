@@ -6,7 +6,7 @@
       <img src="../assets/img/valorant_randomizer.svg" alt="Valorant Randomizer" class="img_valo" />
     </div>
 
-    <div class="flex space-x-8 pb-24">
+    <div class="flex space-x-12 pb-2 pt-24">
       <button @click="$router.push('/selectAgents')" class="standard-button font-third-font font-bold">
         <div>
             <div>
@@ -29,5 +29,18 @@
 <style scoped>
 .img_valo{
   width: 36rem;
+}
+
+/* Media query pour les dimensions 425 x 841 */
+@media (max-width: 425px) and (max-height: 841px) {
+  .img_valo {
+    width: 17rem;
+    margin-bottom: 2rem;
+  }
+
+  .flex {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div :style="{ backgroundImage: `url(${backgroundImage})` }" class="relative h-screen bg-cover bg-center bg-no-repeat"> <!-- Arrière-plan dynamique -->
+    <div :class="backgroundClass" class="relative h-screen bg-cover bg-center bg-no-repeat">
       <div class="absolute inset-0"> <!-- Positionne en haut à gauche de l'arrière-plan -->
         <router-view />  <!-- C'est ici que le composant correspondant à la route sera affiché -->
       </div>
@@ -22,15 +22,15 @@ export default {
     Accueil, SelectNumberAgent, SelectMoneyWeapons, RandomWeaponsSelector
   },
   computed: {
-    backgroundImage() {
-      if (this.$route.path === '/accueil') {
-        return require('@/assets/img/bg-accueil.svg');
+    backgroundClass() {
+      if (this.$route.path === '/') {
+        return ('bg-accueil');
       } else if (this.$route.path === '/selectAgents' || this.$route.path === '/selectMoney') {
-        return require('@/assets/img/bg-settings.svg');
+        return ('bg-settings');
       } else if (/^\/randomWeapons\/\d+$/.test(this.$route.path)) {
-        return require('@/assets/img/bg-results.svg');
+        return ('bg-results');
       } else {
-        return require('@/assets/img/bg-settings.svg');
+        return ('bg-settings');
       }
     }
   }
@@ -38,9 +38,36 @@ export default {
 </script>
 
 <style>
-/*//////////////*/
+/* DEBUT BG */
+.bg-accueil {
+  background-image: url('@/assets/img/bg-accueil.svg');
+}
+
+.bg-settings {
+  background-image: url('@/assets/img/bg-settings.svg');
+}
+
+.bg-results {
+  background-image: url('@/assets/img/bg-results.svg');
+}
+
+/* Media query pour les dimensions 425 x 841 */
+@media (max-width: 425px) and (max-height: 841px) {
+  .bg-accueil {
+    background-image: url('@/assets/img/mb-bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/mb-bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/mb-bg-results.svg');
+  }
+}
+/* FIN BG */
+
 /* DEBUT FONTS */
-/*/////////////*/
 @font-face {
     font-family: 'MainFont';
     src: url('@/assets/fonts/Valorant/VALORANT-Regular.woff') format('woff'),
@@ -72,11 +99,9 @@ export default {
   font-weight: normal;
   font-style: normal;
 }
-/*////////////*/
-/* FIN FONTS */
-/*///////////*/
 
 #app {
   font-family: 'MainFont', 'SecondaryFont', 'ThirdFont', sans-serif;
 }
+/* FIN FONTS */
 </style>

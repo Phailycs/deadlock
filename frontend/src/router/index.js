@@ -1,5 +1,3 @@
-// src/router/index.js
-
 import { createRouter, createWebHistory } from 'vue-router';
 import Accueil from '../components/Accueil.vue';
 import SelectNumberAgent from '../components/SelectNumberAgent';
@@ -8,7 +6,7 @@ import RandomWeaponsSelector from '../components/RandomWeaponsSelector.vue';
 
 const routes = [
   {
-    path: '/accueil',
+    path: '/',
     name: 'Accueil',
     component: Accueil,
   },

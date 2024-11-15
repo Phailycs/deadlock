@@ -111,11 +111,26 @@
 
 /* DEBUT STANDARD*/
 .standard-button {
-  height: 68px;
+  height: 5rem;
+  width: 15rem;
 }
 
 .standard-button > div {
-  padding: 0 4em;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Media query pour les dimensions 425 x 841 */
+@media (max-width: 425px) and (max-height: 841px) {
+  .standard-button {
+    height: 8rem;
+    width: 12rem;
+    margin-bottom: 5rem;
+  }
+
+  .standard-button > div {
+    font-size: 1.5rem;
+  }
 }
 /* FIN STANDARD*/
 
@@ -134,8 +149,8 @@
 /* DEBUT TRY*/
 
 .try-button {
-  height: 7em;
-  width: 8em;
+  height: 5em;
+  width: 5em;
 }
 
 .try-button > div {
