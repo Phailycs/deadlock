@@ -26,6 +26,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Accueil',
+  mounted() {
+    // Changer le favicon lorsque le composant est monté
+    document.title = "Accueil";
+
+  }
+};
+</script>
+
 <style scoped>
 .img_valo{
   width: 36rem;

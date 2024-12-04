@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3b45766-71c6-4ffe-9c99-1cd3e008fea6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/NotFound.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Accueil.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Accueil.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NotFound.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NotFound.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RandomWeaponsSelector.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/RandomWeaponsSelector.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SelectNumberAgent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SelectNumberAgent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1733305568191</updated>
       <workItem from="1733305569327" duration="7824000" />
-      <workItem from="1733313488457" duration="432000" />
+      <workItem from="1733313488457" duration="5211000" />
     </task>
     <servers />
   </component>

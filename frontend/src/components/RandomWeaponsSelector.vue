@@ -1,4 +1,9 @@
 <template>
+<head>
+  <title>Mon Application</title>
+</head>
+
+
   <div class="container mx-auto px-4 py-8 flex flex-col items-center text-center">
     <!-- Image Valorant Randomizer en haut à gauche -->
     <div class="absolute top-4 left-4">
@@ -103,6 +108,12 @@
 import axios from 'axios';
 
 export default {
+
+  mounted() {
+    // Changer le favicon lorsque le composant est monté
+    document.title = "Armes";
+
+  },
   data() {
     return {
       items: [],

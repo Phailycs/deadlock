@@ -86,15 +86,17 @@
 import axios from 'axios';
 
 export default {
+
   data() {
     return {
       numberAgent: 1,
-      agents: [], // Les agents récupérés de l'API
+      agents: [],
       result: [],
     };
   },
   mounted() {
     this.fetchAgents();
+    document.title = "Agents";
   },
   methods: {
     async fetchAgents() {
