@@ -3,7 +3,7 @@
 
     <!-- Image Valorant Randomizer en haut à gauche -->
     <div class="absolute top-4 left-4">
-      <a href="../">
+      <a href="../accueil">
         <img src="../assets/img/valorant_randomizer.svg" alt="Valorant Randomizer" class="w-64 h-auto pt-6 pl-6" />
       </a>
     </div>
@@ -17,16 +17,16 @@
 
       <!-- Sélecteur de nombre d'agents -->
       <div class="flex items-center gap-4">
-        <button 
-          class="w-10 h-10 text-black-grey text-5xl rounded-full flex items-center justify-center pr-6 "
-          @click="decrement"
+        <button
+            class="w-10 h-10 text-black-grey text-5xl rounded-full flex items-center justify-center pr-6 "
+            @click="decrement"
         >-</button>
         <div class="w-32 h-12 flex items-center justify-center bg-black-grey text-white text-2xl font-third-font font-regular">
           {{ numberAgent }}
         </div>
-        <button 
-          class="w-10 h-10 text-black-grey text-5xl rounded-full flex items-center justify-center pl-6 "
-          @click="increment"
+        <button
+            class="w-10 h-10 text-black-grey text-5xl rounded-full flex items-center justify-center pl-6 "
+            @click="increment"
         >+</button>
       </div>
 
@@ -45,15 +45,15 @@
     <!-- Liste des agents -->
     <div class="container mx-auto px-4 py-8 pt-30">
       <ul v-if="result.length > 0" class="flex flex-wrap justify-center gap-4">
-        <li v-for="(agent, index) in result" :key="agent.uuid" class="relative flex flex-col items-center gap-4 agents-item">
+        <li v-for="(agent, index) in result" :key="agent.uuid" class="relative flex flex-col items-center gap-4 agent-item">
           <h3 class="font-main-font text-white text-4xl z-0">Player {{ index + 1 }}</h3>
           <img :src="agent.icon" :alt="`Image de ${agent.displayName}`" class="h-60 pt-4 pb-2 z-10" />
           <p class="text-white font-secondary-font text-5xl uppercase z-10">{{ agent.name }}</p>
 
           <!-- Bouton Try Again centré en bas -->
           <button
-            v-if="agent" @click="randomizeSingleAgent(index)"
-            class="try-button try-again-button z-50 font-third-font font-bold text-2xl absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              v-if="agent" @click="randomizeSingleAgent(index)"
+              class="try-button try-again-button z-50 font-third-font font-bold text-2xl absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div>
               <div>
                 TRY AGAIN
@@ -65,9 +65,9 @@
     </div>
 
     <!-- Bouton RANDOMIZE WEAPONS -->
-    <div v-if="result.length > 0" class="absolute flex items-center justify-center">
+    <div v-if="result.length > 0" class="flex items-center justify-center pt-32">
       <a href="./selectMoney">
-        <button class="standard-button font-third-font font-bold">
+        <button class="standard-button font-third-font font-bold relative">
           <div>
             <div>
               RANDOMIZE WEAPONS
@@ -129,7 +129,7 @@ export default {
         this.result.push(selectedAgent);
       }
     },
-     // Fonction pour régénérer un seul agent sans dupliquer ceux déjà sélectionnés
+    // Fonction pour régénérer un seul agent sans dupliquer ceux déjà sélectionnés
     randomizeSingleAgent(index) {
       const agentsCopy = [...this.agents];
       let newAgent;
@@ -149,19 +149,19 @@ export default {
 </script>
 
 <style>
-.agents-item:hover > .z-10 {
+.agent-item:hover > .z-10 {
   filter: blur(5px);
   transition: filter 0.3s ease;
 }
 
-.agents-item:hover {
+.agent-item:hover {
   background-color: #2B2B2B;
   transition: 0.3s ease;
-  padding: 1%;
+  padding: 1.5%;
 }
 
 /* Afficher le bouton au survol */
-.agents-item:hover .try-again-button {
+.agent-item:hover .try-again-button {
   opacity: 1;
   pointer-events: auto; /* Rendre le bouton cliquable */
 }

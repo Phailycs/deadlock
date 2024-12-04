@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 py-8 flex flex-col items-center text-center">
     <!-- Image Valorant Randomizer en haut à gauche -->
     <div class="absolute top-4 left-4">
-      <a href="../">
+      <a href="../accueil">
         <img src="../assets/img/valorant_randomizer.svg" alt="Valorant Randomizer" class="w-64 h-auto pt-6 pl-6" />
       </a>
     </div>
@@ -12,15 +12,26 @@
 
     <!-- Liste des armes -->
     <div class="flex justify-center flex-wrap gap-8">
-      <div v-for="(item, index) in randomWeapons" :key="item.name" class="relative bg-white weapons-item min-w-[20rem] min-h-[24rem] p-12 flex flex-col justify-between">
-        <div class="z-10">
-          <div :class="['absolute w-8 h-8 bg-red-valorant', item.category !== 'Pistols' ? 'top-0 left-0' : 'bottom-0 left-0']"></div>
+      <!-- Encadré pour chaque arme (Secondary et Primary) -->
+      <div
+          v-for="(item, index) in randomWeapons"
+          :key="item.name"
+          class="relative weapons-item min-w-[20rem] min-h-[24rem] p-12 flex flex-col justify-between"
+          :class="{
+            'bg-black-grey': item.category === 'Armor',
+            'bg-white': item.category !== 'Armor'
+          }"
+      >
+        <div :class="['absolute w-8 h-8 bg-red-valorant', item.category !== 'Pistols' ? 'top-0 left-0' : 'bottom-0 left-0']">
           <img src="@/assets/img/weapons/logo-val.svg" :class="['absolute w-5 h-5', item.category !== 'Pistols' ? 'top-1 left-1' : 'bottom-1 left-1']">
         </div>
-        
+
         <!-- Section en haut pour afficher la catégorie -->
         <div class="w-full text-center mb-12 z-10">
-          <p class="font-third-font text-2xl" style="filter:none;">{{ getText(item.category) }}</p>
+          <p class="font-third-font text-2xl" style="filter:none;" :class="{
+            'text-white	': item.category === 'Armor',
+            'text-black	': item.category !== 'Armor'
+          }">{{ getText(item.category) }}</p>
         </div>
 
         <!-- Conteneur de l'image de l'arme au centre -->
@@ -30,7 +41,10 @@
 
         <!-- Section en bas pour afficher le nom de l'arme -->
         <div class="w-full text-center my-4 z-0">
-          <h2 class="text-6xl font-secondary-font uppercase">{{ item.name }}</h2>
+          <h2 class="text-6xl font-secondary-font uppercase" :class="{
+            'text-white	': item.category === 'Armor',
+            'text-black	': item.category !== 'Armor'
+          }">{{ item.name }}</h2>
         </div>
 
         <!-- Bouton TRY AGAIN centré au milieu -->
@@ -41,6 +55,14 @@
         </button>
       </div>
     </div>
+
+    <!-- Option Inclure un bouclier -->
+    <div class="flex items-center space-x-2 mb-6 pt-9">
+      <input type="checkbox" id="includeShield" v-model="includeShield" class="w-5 h-5">
+      <label for="includeShield" class="text-lg font-bold">Inclure un bouclier dans la randomisation</label>
+    </div>
+
+    <!-- Boutons pour les budgets -->
     <div class="flex space-x-12 mt-16 font-third-font font-bold">
       <button class="money-button" @click="sendMoney(800)">
         <div>
@@ -76,6 +98,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 
@@ -84,121 +107,117 @@ export default {
     return {
       items: [],
       randomWeapons: [],
-      result: [],
+      includeShield: false, // Option pour inclure ou non un bouclier
+      cost: 0, // Le budget actuel
     };
   },
   async created() {
     try {
       const weaponsResponse = await this.fetchApi('weapons');
       const gearsResponse = await this.fetchApi('gears');
+      console.log(weaponsResponse, gearsResponse);
       this.items = [...weaponsResponse, ...gearsResponse];
 
-      // Filtrer les armes par budget
-      const availableWeapons = this.items.filter(item => item.cost <= this.cost);
-
-      this.randomWeapons = this.generateRandomCombination(availableWeapons, this.cost);
+      // Calculer la première sélection d'armes pour un coût donné
+      this.updateWeaponsBasedOnCost(this.cost);
     } catch (error) {
       console.error('Erreur de récupération des données:', error);
     }
   },
-  computed: {
-    cost() {
-      return this.$route.params.cost;
-    }
+
+  watch: {
+    '$route.params.cost': {
+      immediate: true,
+      handler(newCost) {
+        this.cost = parseInt(newCost, 10) || 0;
+        this.updateWeaponsBasedOnCost(this.cost);
+      },
+    },
   },
+
   methods: {
     async fetchApi(type) {
       try {
         const response = await axios.get(`https://deadlock-backend.vercel.app/api/${type}`);
         return response.data;
       } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
+        console.error('Erreur lors de la récupération des données:', error);
         return [];
       }
     },
-    sendMoney(cost) {
-      this.$router.push({ name: 'RandomWeaponsSelector', params: { cost } });
+
+    updateWeaponsBasedOnCost(budget) {
+      const availableItems = this.items.filter(item => item.cost <= budget);
+
+      // Séparer les armes en catégories : primaires, secondaires et boucliers
+      const primaryWeapons = availableItems.filter(item => item.category !== 'Pistols' && item.category !== 'Shield');
+      const secondaryWeapons = availableItems.filter(item => item.category === 'Pistols');
+
+      // Récupérer les boucliers uniquement si l'option "Inclure un bouclier" est cochée
+      const shields = this.includeShield ? availableItems.filter(item => item.category === 'Shield') : [];
+
+      // Mélanger les armes
+      const randomSecondary = this.randomizeWeapon(secondaryWeapons);
+      const randomPrimary = this.randomizeWeapon(primaryWeapons);
+      const randomShield = this.randomizeWeapon(shields);
+
+      // Recréer la liste d'armes
+      this.randomWeapons = [...randomSecondary, ...randomPrimary, ...randomShield];
     },
+    randomizeWeapon(weaponArray) {
+      if (weaponArray.length === 0) return [];
+      const randomWeapon = weaponArray[Math.floor(Math.random() * weaponArray.length)];
+      return [randomWeapon];
+    },
+
+    sendMoney(cost) {
+      // Mettre à jour le coût actuel
+      this.cost = cost;
+      this.updateWeaponsBasedOnCost(cost);
+    },
+
     getText(category) {
       switch (category) {
         case 'Pistols':
           return 'Secondary';
+        case 'Shield':
+          return 'Shield';
         default:
           return 'Primary';
       }
     },
-    generateRandomCombination(availableWeapons, budget) {
-      const selectedWeapons = [];
-      let totalCost = 0;
-      const categoriesSelected = new Set(); // Pour garder une arme par catégorie
-      let heavyWeaponSelected = false; // Indicateur pour savoir si une grosse arme a été sélectionnée
-      let pistolSelected = false; // Indicateur pour savoir si un pistolet a été sélectionné
 
-      const heavyWeapons = availableWeapons.filter(weapon => this.isHeavyWeapon(weapon));
-      const pistols = availableWeapons.filter(weapon => weapon.category === 'Pistols');
-      const regularWeapons = availableWeapons.filter(weapon => !this.isHeavyWeapon(weapon) && weapon.category !== 'Pistols');
 
-      const shuffledHeavyWeapons = heavyWeapons.sort(() => 0.5 - Math.random());
-      const shuffledPistols = pistols.sort(() => 0.5 - Math.random());
-      const shuffledRegularWeapons = regularWeapons.sort(() => 0.5 - Math.random());
-
-      for (let weapon of shuffledHeavyWeapons) {
-        if (heavyWeaponSelected) continue;
-        if (totalCost + weapon.cost <= budget) {
-          selectedWeapons.push(weapon);
-          totalCost += weapon.cost;
-          heavyWeaponSelected = true;
-          categoriesSelected.add(weapon.category);
-          break;
-        }
-      }
-
-      if (!pistolSelected) {
-        for (let weapon of shuffledPistols) {
-          if (totalCost + weapon.cost <= budget) {
-            selectedWeapons.push(weapon);
-            totalCost += weapon.cost;
-            pistolSelected = true;
-            categoriesSelected.add(weapon.category);
-            break;
-          }
-        }
-      }
-
-      for (let weapon of shuffledRegularWeapons) {
-        if (selectedWeapons.length >= 2) break;
-        if (categoriesSelected.has(weapon.category)) continue;
-        if (totalCost + weapon.cost <= budget) {
-          selectedWeapons.push(weapon);
-          totalCost += weapon.cost;
-          categoriesSelected.add(weapon.category);
-        }
-      }
-
-      return selectedWeapons;
-    },
-    isHeavyWeapon(weapon) {
-      const heavyWeaponTypes = ['Rifles', 'Heavy Weapons', 'Shotguns', 'Sniper Rifles', 'SMGs'];
-      return heavyWeaponTypes.includes(weapon.type);
-    },
     randomizeSingleWeapons(index) {
-      const weaponsCopy = [...this.items];
+      const currentWeapon = this.randomWeapons[index];
+
+      // Déterminer si l'arme est Primary ou Secondary
+      const isSecondary = currentWeapon.category === 'Pistols';
+
+      // Filtrer les armes sans inclure les boucliers si l'option n'est pas activée
+      const filteredWeapons = this.items.filter(item => {
+        if (!this.includeShield && item.category === 'Armor') {
+          return false; // Exclure les boucliers si l'option est décochée
+        }
+        return isSecondary ? item.category === 'Pistols' : item.category !== 'Pistols';
+      });
+
       let newWeapon;
 
-      // Vérifier que la nouvelle arme n'est pas déjà dans la sélection
+      // Boucle pour s'assurer que la nouvelle arme est différente de l'arme actuelle
       do {
-        const randomIndex = Math.floor(Math.random() * weaponsCopy.length);
-        newWeapon = weaponsCopy[randomIndex];
-      } while (this.randomWeapons.includes(newWeapon));
+        const randomIndex = Math.floor(Math.random() * filteredWeapons.length);
+        newWeapon = filteredWeapons[randomIndex];
+      } while (newWeapon.name === currentWeapon.name);
 
-      // Remplacer l'arme à l'index donné directement
+      // Remplacer l'arme à l'index donné
       this.randomWeapons.splice(index, 1, newWeapon);
     }
-
-
-  }
+  },
 };
 </script>
+
+
 
 <style>
 .weapons-item:hover {
@@ -223,4 +242,10 @@ export default {
   transition: color 0.3s ease;
   color: white;
 }
+
+.weapons-item .z-10 path {
+  stroke: #000; /* Add a black stroke (border) */
+  stroke-width: 2px; /* Specify the thickness of the border */
+}
 </style>
+
