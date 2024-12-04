@@ -39,20 +39,8 @@ export default {
 
 <style>
 /* DEBUT BG */
-.bg-accueil {
-  background-image: url('@/assets/img/bg-accueil.svg');
-}
-
-.bg-settings {
-  background-image: url('@/assets/img/bg-settings.svg');
-}
-
-.bg-results {
-  background-image: url('@/assets/img/bg-results.svg');
-}
-
-/* Media query pour les dimensions 425 x 841 */
-@media (max-width: 425px) and (max-height: 841px) {
+/* mb-xs */
+@media (min-width: 320px) {
   .bg-accueil {
     background-image: url('@/assets/img/mb-bg-accueil.svg');
   }
@@ -63,6 +51,95 @@ export default {
 
   .bg-results {
     background-image: url('@/assets/img/mb-bg-results.svg');
+  }
+}
+/* xs */
+@media (min-width: 475px){
+  .bg-accueil {
+    background-image: url('@/assets/img/mb-bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/mb-bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/mb-bg-results.svg');
+  }
+}
+
+/* sm */
+@media (min-width: 640px){
+  .bg-accueil {
+    background-image: url('@/assets/img/mb-bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/mb-bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/mb-bg-results.svg');
+  }
+}
+
+/* md */
+@media (min-width: 768px){
+  .bg-accueil {
+    background-image: url('@/assets/img/mb-bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/mb-bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/mb-bg-results.svg');
+  }
+}
+
+/* lg */
+@media (min-width: 1024px){
+  .bg-accueil {
+  background-image: url('@/assets/img/bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/bg-results.svg');
+  }
+}
+
+/* xl */
+@media (min-width: 1280px){
+  .bg-accueil {
+  background-image: url('@/assets/img/bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/bg-results.svg');
+  }
+}
+
+/* 2xl */
+@media (min-width: 1536px){
+  .bg-accueil {
+  background-image: url('@/assets/img/bg-accueil.svg');
+  }
+
+  .bg-settings {
+    background-image: url('@/assets/img/bg-settings.svg');
+  }
+
+  .bg-results {
+    background-image: url('@/assets/img/bg-results.svg');
   }
 }
 /* FIN BG */
